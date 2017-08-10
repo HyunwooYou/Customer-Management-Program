@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+	<meta charset="UTF-8"/>
+	<title>고객 목록</title>
+	<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"/>
+	<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap-theme.min.css}"/>
+</head>
+<body>
+<div class="container">
+	<h1>티지헤어 관리 시스템</h1>
+	
+	<div class="col-sm-12">
+		<form th:action="@{/customers/create}" th:object="${customerForm}"
+				class="form-horizontal" method="post">
+			<fieldset>
+				<legend>고객 정보 작성</legend>
+				<div class="form-group" th:classappend=
+						"${#fields.hasErrors('name')}? 'has-error has-feedback'">
+					<label for="name" class="col-sm-2 control-label">이름</label>
+					
+					<div class="col-sm-6">
+						<input type="text" id="name" name="name"
+							th:field="*{name}"
+							class="form-control" value="gachonhyun"/>
+						<span th:if="${#fields.hasErrors('name')}"
+						th:errors="*{name}"
+							class="help-block">error!</span>
+					</div>	
+				</div>
+				<div class="form-group" th:classappend=
+						"${#fields.hasErrors('phone_number')}? 'has-error has-feedback'">
+					<label for="phone_number" class="col-sm-2 control-label">휴대폰 번호</label>
+					
+					<div class="col-sm-6">
+						<input type="text" id="phone_number" name="phone_number"
+								th:field="*{phone_number}"
+							class="form-control" value="phoneNumber"/>
+						<span th:if="${#fields.hasErrors('phone_number')}"
+								th:errors="*{phone_number}"
+							class="help-block">error!</span>
+					</div>	
+				</div>
+				<div class="form-group" th:classappend=
+						"${#fields.hasErrors('hair_type')}? 'has-error has-feedback'">
+					<label for="hair_type" class="col-sm-2 control-label">서비스 종류</label>
+					
+					<div class="col-sm-6">
+						<input type="text" id="hair_type" name="hair_type"
+								th:field="*{hair_type}"
+							class="form-control" value="Service"/>
+						<span th:if="${#fields.hasErrors('hair_type')}"
+								th:errors="*{hair_type}"
+							class="help-block">error!</span>
+					</div>	
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-primary">작성</button>
+					</div>
+				</div>
+			</fieldset>		
+		</form>
+		
+		<form th:action="@{/customers}" >
+			<div style="float:left;" class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">전체목록</button>
+				</div>
+			</div>
+		</form>
+		
+		<form th:action="@{/customers/search}" th:object="${searchNameForm}"
+				class="form-horizontal" method="post">			
+			<div style="float:right;" class="form-group" th:classappend=
+					"${#fields.hasErrors('search')}? 'has-error has-feedback'">					
+				<label for="search" class="col-sm-2 control-label"></label>
+				<div class="col-sm-6">
+					<input type="text" id="search" name="search"
+							th:field="*{search}"
+						class="form-control" value="Service"/>
+					<span th:if="${#fields.hasErrors('search')}"
+							th:errors="*{search}"
+						class="help-block">error!</span>
+				</div>	
+			</div>
+			<div style="float:right;" class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">이름검색</button>
+				</div>
+			</div>				
+		</form>
+ 
+		<table class="table table-striped table-bordered table-condensed">
+			<tr>
+				<th>이름</th>
+				<th>휴대폰 번호</th>
+				<th>서비스 종류</th>
+				<th colspan="2">편집</th>
+			</tr>
+			<tr th:each="customer : ${customers}">
+				<!-- <td th:text="${customer.id}">100</td> -->
+				<td th:text="${customer.name}">gachonhyun</td>
+				<td th:text="${customer.phone_number}">phoneNum</td>
+				<td th:text="${customer.hair_type}">null</td>
+				<td>
+					<form th:action="@{/customers/edit}" method="get">
+						<input class="btn btn-default" type="submit"
+							name="form" value="편집"/>
+						<input type="hidden" name="id" th:value="${customer.id}"/>
+					</form>
+				</td>
+				<td>
+					<form th:action="@{/customers/delete}" method="post">
+						<input class="btn btn-danger" type="submit" value="삭제"/>
+						<input type="hidden" name="id" th:value="${customer.id}"/>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- 왜 에러나는지 모르는 부분. 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+	th:src="@{/webjars/jquery/1.11.3/jquery.min.js}"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/3.3.4/js/bootstrap.min.js}"></script>
+ -->		
+</body>
+</html>
