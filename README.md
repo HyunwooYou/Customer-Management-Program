@@ -7,6 +7,8 @@ Things you may want to cover:
 
 * JPA 
 
+* SQL 
+
 * MVC Pattern 
 
 * Html, CSS, Bootstrap
